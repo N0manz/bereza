@@ -1,0 +1,97 @@
+spring:
+  application:
+    name: bereza
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/bereza}
+    username: ${DB_USER:bereza}
+    password: ${DB_PASSWORD:bereza}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 20000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          batch_size: 30
+        order_inserts: true
+        order_updates: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  session:
+    store-type: jdbc
+    timeout: 30d
+    jdbc:
+      initialize-schema: never
+      table-name: SPRING_SESSION
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 25MB
+      max-request-size: 30MB
+
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  port: ${SERVER_PORT:8080}
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        name: BEREZA_SESSION
+        http-only: true
+        secure: ${COOKIE_SECURE:false}        # true в проде (HTTPS)
+        same-site: ${COOKIE_SAMESITE:lax}      # lax — для same-origin SPA через nginx
+      timeout: 30d
+  error:
+    include-message: always
+    include-binding-errors: always
+
+bereza:
+  security:
+    bcrypt-strength: 12
+    remember-me-key: ${REMEMBER_ME_KEY:change-me-in-prod}
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost}
+  storage:
+    root: ${STORAGE_ROOT:./var/storage}
+    max-file-size-mb: 25
+    allowed-mime:
+      - image/png
+      - image/jpeg
+      - image/webp
+      - image/gif
+      - application/pdf
+  geo:
+    default-srid: 4326
+  websocket:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when-authorized
+
+logging:
+  level:
+    root: INFO
+    messenger.bereza: DEBUG
+    org.springframework.security: INFO

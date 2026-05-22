@@ -1,0 +1,10 @@
+target
+.idea
+*.iml
+.git
+.gitignore
+.mvn/wrapper/maven-wrapper.jar
+frontend/node_modules
+frontend/dist
+var
+HELP.md

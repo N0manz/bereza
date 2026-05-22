@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: false
+
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
+        same-site: lax
+
+bereza:
+  security:
+    allowed-origins: ${ALLOWED_ORIGINS}
+  websocket:
+    allowed-origins: ${ALLOWED_ORIGINS}
+
+logging:
+  level:
+    root: INFO
+    messenger.bereza: INFO
+    org.springframework.security: WARN

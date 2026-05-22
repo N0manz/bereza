@@ -1,0 +1,16 @@
+# Dev override: только Postgres в Docker, backend и frontend запускаем локально.
+# Использование: docker compose -f docker-compose.dev.yml up -d
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bereza-postgres-dev
+    environment:
+      POSTGRES_DB: bereza
+      POSTGRES_USER: bereza
+      POSTGRES_PASSWORD: bereza
+    ports: ["5432:5432"]
+    volumes:
+      - bereza-pg-dev:/var/lib/postgresql/data\/
+
+volumes:
+  bereza-pg-dev:
