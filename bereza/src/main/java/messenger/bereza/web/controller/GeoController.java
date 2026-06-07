@@ -7,7 +7,6 @@ import messenger.bereza.service.GeoService;
 import messenger.bereza.web.dto.geo.CreateGeoPointRequest;
 import messenger.bereza.web.dto.geo.GeoPointResponse;
 import messenger.bereza.web.mapper.GeoPointMapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +21,6 @@ public class GeoController {
     private final CurrentUserProvider currentUser;
 
     @PostMapping("/points")
-    @PreAuthorize("hasAnyRole('GUIDE','HOTEL','ADMIN')")
     public GeoPointResponse create(@Valid @RequestBody CreateGeoPointRequest req) {
         return mapper.toResponse(geoService.create(currentUser.currentUserId(), req));
     }

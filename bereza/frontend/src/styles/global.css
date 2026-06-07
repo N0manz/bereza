@@ -259,6 +259,9 @@ button { font-family: inherit; }
 }
 .btn--ghost:hover { background: var(--bg-soft); border-color: var(--border-strong); }
 .btn--sm { padding: 6px 12px; font-size: 0.82rem; }
+.btn--icon { padding: 6px; border-radius: 6px; }
+.btn--danger { color: var(--danger); border-color: transparent; }
+.btn--danger:hover { background: var(--accent-soft); border-color: rgba(161,74,57,0.3); }
 
 /* ----------- alerts ----------- */
 .alert {
@@ -414,6 +417,7 @@ button { font-family: inherit; }
   background: var(--surface);
   padding: 14px 24px;
   border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 .chat__header .strong { font-family: 'Yeseva One', serif; font-size: 1.1rem; font-weight: 400; }
 
@@ -533,7 +537,42 @@ button { font-family: inherit; }
   width: 100%; max-width: 480px;
   box-shadow: var(--shadow-lg);
 }
+.modal__card--side {
+  max-width: 360px;
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 0;
+  padding: 0;
+}
+.modal__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: var(--surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.modal__head h3 { margin: 0; }
 .modal__actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+/* ----------- members panel ----------- */
+.members-list { list-style: none; padding: 10px 0; margin: 0; }
+.members-list__item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 20px;
+  transition: background 0.12s;
+}
+.members-list__item:hover { background: var(--bg-soft); }
+.members-add {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.members-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
 
 .picklist { list-style: none; padding: 0; margin: 10px 0; max-height: 280px; overflow-y: auto; }
 .picklist__item {

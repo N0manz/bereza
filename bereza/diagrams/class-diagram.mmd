@@ -1,0 +1,202 @@
+classDiagram
+    direction TB
+
+    class User {
+        +Long id
+        +String username
+        +String email
+        +String displayName
+        +Role role
+        +String phone
+        +String avatarUrl
+        +boolean enabled
+        +boolean locked
+        +Instant lastSeenAt
+        +Instant createdAt
+        +Instant updatedAt
+    }
+
+    class Chat {
+        +Long id
+        +ChatType type
+        +String title
+        +String description
+        +String avatarUrl
+        +Instant createdAt
+        +Instant updatedAt
+    }
+
+    class ChatMember {
+        +ChatMemberId id
+        +MemberRole memberRole
+        +Instant joinedAt
+        +Long lastReadMessageId
+        +boolean muted
+    }
+
+    class Message {
+        +Long id
+        +MessageType type
+        +String content
+        +Map payload
+        +Instant editedAt
+        +Instant deletedAt
+        +Instant createdAt
+    }
+
+    class MessageRead {
+        +MessageReadId id
+        +Instant readAt
+    }
+
+    class Hotel {
+        +Long id
+        +String name
+        +String description
+        +String city
+        +String address
+        +Double latitude
+        +Double longitude
+        +Short stars
+        +BigDecimal pricePerNight
+        +String currency
+        +int roomsAvailable
+        +List~String~ photos
+        +List~String~ amenities
+        +boolean active
+        +Instant createdAt
+        +Instant updatedAt
+    }
+
+    class Booking {
+        +Long id
+        +LocalDate checkIn
+        +LocalDate checkOut
+        +short guests
+        +short rooms
+        +BigDecimal totalPrice
+        +String currency
+        +BookingStatus status
+        +Instant createdAt
+        +Instant updatedAt
+    }
+
+    class GeoPoint {
+        +Long id
+        +GeoPointType type
+        +String title
+        +String description
+        +double latitude
+        +double longitude
+        +Instant expiresAt
+        +Instant createdAt
+    }
+
+    class Attachment {
+        +Long id
+        +String storageKey
+        +String originalName
+        +String mimeType
+        +Long sizeBytes
+        +String checksumSha256
+        +AttachmentCategory category
+        +Instant createdAt
+    }
+
+    class Notification {
+        +Long id
+        +String type
+        +String title
+        +String body
+        +Map payload
+        +boolean read
+        +Instant createdAt
+    }
+
+    class Role {
+        <<enumeration>>
+        USER
+        ADMIN
+        HOTEL_OWNER
+    }
+
+    class ChatType {
+        <<enumeration>>
+        DIRECT
+        GROUP
+        SUPPORT
+    }
+
+    class MemberRole {
+        <<enumeration>>
+        OWNER
+        ADMIN
+        MEMBER
+    }
+
+    class MessageType {
+        <<enumeration>>
+        TEXT
+        IMAGE
+        FILE
+        SYSTEM
+        GEO
+    }
+
+    class BookingStatus {
+        <<enumeration>>
+        PENDING
+        CONFIRMED
+        CANCELLED
+        COMPLETED
+    }
+
+    class GeoPointType {
+        <<enumeration>>
+        CURRENT_LOCATION
+        MEETING_POINT
+        POI
+    }
+
+    class AttachmentCategory {
+        <<enumeration>>
+        IMAGE
+        VIDEO
+        AUDIO
+        DOCUMENT
+        GENERIC
+    }
+
+    User "1" --> "1" Role : role
+
+    Chat "1" --> "0..*" ChatMember : members
+    Chat "many" --> "1" User : owner
+
+    ChatMember "many" --> "1" Chat : chat
+    ChatMember "many" --> "1" User : user
+    ChatMember "1" --> "1" MemberRole : memberRole
+
+    Message "many" --> "1" Chat : chat
+    Message "many" --> "0..1" User : sender
+    Message "many" --> "0..1" Message : replyTo
+    Message "1" --> "1" MessageType : type
+
+    MessageRead "many" --> "1" Message : message
+    MessageRead "many" --> "1" User : user
+
+    Hotel "many" --> "0..1" User : owner
+
+    Booking "many" --> "1" Hotel : hotel
+    Booking "many" --> "1" User : user
+    Booking "many" --> "0..1" Chat : chat
+    Booking "1" --> "1" BookingStatus : status
+
+    GeoPoint "many" --> "0..1" Chat : chat
+    GeoPoint "many" --> "1" User : author
+    GeoPoint "1" --> "1" GeoPointType : type
+
+    Attachment "many" --> "0..1" Message : message
+    Attachment "many" --> "1" User : uploader
+    Attachment "1" --> "1" AttachmentCategory : category
+
+    Notification "many" --> "1" User : user

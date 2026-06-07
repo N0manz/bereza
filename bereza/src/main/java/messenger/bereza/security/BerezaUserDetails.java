@@ -10,10 +10,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Lightweight principal stored in the HTTP session. Не храним полноценную JPA-сущность —
- * только то, что нужно для авторизации/идентификации (snapshot на момент логина).
- */
+
 @Getter
 public class BerezaUserDetails implements UserDetails, Serializable {
 

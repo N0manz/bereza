@@ -8,11 +8,15 @@ import messenger.bereza.service.ChatService;
 import messenger.bereza.service.MessageService;
 import messenger.bereza.web.dto.PageResponse;
 import messenger.bereza.web.dto.chat.AddMemberRequest;
+import messenger.bereza.web.dto.chat.ChatMemberView;
 import messenger.bereza.web.dto.chat.ChatResponse;
 import messenger.bereza.web.dto.chat.CreateChatRequest;
 import messenger.bereza.web.mapper.ChatMapper;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/chats")
@@ -50,6 +54,12 @@ public class ChatController {
         return chatMapper.toResponse(chat, 0);
     }
 
+    @GetMapping("/{id}/members")
+    public List<ChatMemberView> listMembers(@PathVariable Long id) {
+        return chatService.listMembers(id, currentUser.currentUserId())
+                .stream().map(chatMapper::toMemberView).toList();
+    }
+
     @PostMapping("/{id}/members")
     public void addMember(@PathVariable Long id, @Valid @RequestBody AddMemberRequest req) {
         chatService.addMember(id, currentUser.currentUserId(), req.userId());
@@ -58,5 +68,11 @@ public class ChatController {
     @DeleteMapping("/{id}/members/{userId}")
     public void removeMember(@PathVariable Long id, @PathVariable Long userId) {
         chatService.removeMember(id, currentUser.currentUserId(), userId);
+    }
+
+    @DeleteMapping("/{id}/leave")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void leave(@PathVariable Long id) {
+        chatService.removeMember(id, currentUser.currentUserId(), currentUser.currentUserId());
     }
 }

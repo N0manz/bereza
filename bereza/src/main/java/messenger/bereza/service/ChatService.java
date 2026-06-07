@@ -90,6 +90,12 @@ public class ChatService {
         return chat;
     }
 
+    @Transactional(readOnly = true)
+    public List<ChatMember> listMembers(Long chatId, Long requesterId) {
+        requireMember(chatId, requesterId);
+        return chatMemberRepository.findAllByChatId(chatId);
+    }
+
     @Transactional
     public void addMember(Long chatId, Long requesterId, Long newMemberId) {
         Chat chat = chatRepository.findById(chatId)
@@ -97,7 +103,7 @@ public class ChatService {
         if (chat.getType() == ChatType.PERSONAL) {
             throw new BadRequestException("Нельзя добавить участников в личный чат");
         }
-        requireOwnerOrAdmin(chatId, requesterId);
+        requireOwnerAdminOrGuide(chatId, requesterId);
 
         if (chatMemberRepository.existsByChatIdAndUserId(chatId, newMemberId)) {
             return; // идемпотентно
@@ -115,8 +121,8 @@ public class ChatService {
             throw new BadRequestException("Нельзя удалить участников из личного чата");
         }
         if (!requesterId.equals(targetUserId)) {
-            // удаление другого участника — только владелец/админ
-            requireOwnerOrAdmin(chatId, requesterId);
+            // удаление другого участника — владелец, админ чата или гид
+            requireOwnerAdminOrGuide(chatId, requesterId);
         }
         ChatMember member = chatMemberRepository.find(chatId, targetUserId)
                 .orElseThrow(() -> new NotFoundException("Участник не найден"));
@@ -142,6 +148,17 @@ public class ChatService {
                 .orElseThrow(() -> new ForbiddenException("Нет доступа к чату"));
         if (m.getMemberRole() != MemberRole.OWNER && m.getMemberRole() != MemberRole.ADMIN) {
             throw new ForbiddenException("Действие доступно только админам группы");
+        }
+    }
+
+    public void requireOwnerAdminOrGuide(Long chatId, Long userId) {
+        ChatMember m = chatMemberRepository.find(chatId, userId)
+                .orElseThrow(() -> new ForbiddenException("Нет доступа к чату"));
+        boolean isChatManager = m.getMemberRole() == MemberRole.OWNER
+                || m.getMemberRole() == MemberRole.ADMIN;
+        boolean isGuide = m.getUser().getRole() == Role.GUIDE;
+        if (!isChatManager && !isGuide) {
+            throw new ForbiddenException("Управлять участниками могут только гиды и администраторы группы");
         }
     }
 

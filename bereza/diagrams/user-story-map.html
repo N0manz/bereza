@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bereza — Карта пользовательских сценариев</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 11px;
+      background: #F5F5F5;
+      padding: 20px;
+    }
+
+    .title {
+      background: #1A237E;
+      color: #fff;
+      text-align: center;
+      padding: 14px 24px;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid #90A4AE;
+      background: #fff;
+    }
+
+    /* ── Column headers ── */
+    th {
+      background: #283593;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px 8px;
+      border: 1px solid #1A237E;
+      vertical-align: middle;
+      letter-spacing: 0.2px;
+    }
+    th.row-label-header {
+      width: 28px;
+      background: #1A237E;
+    }
+
+    /* ── Row-level label cell ── */
+    td.row-label {
+      width: 28px;
+      writing-mode: vertical-lr;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      white-space: nowrap;
+      font-weight: 700;
+      font-size: 11px;
+      text-align: center;
+      padding: 6px 4px;
+      vertical-align: middle;
+      border: 1px solid rgba(0,0,0,0.12);
+    }
+    td.done-label  { background: #2E7D32; color: #fff; }
+    td.next-label  { background: #E65100; color: #fff; }
+    td.later-label { background: #546E7A; color: #fff; }
+
+    /* ── Data cells ── */
+    td.cell {
+      vertical-align: top;
+      padding: 8px 7px;
+      border: 1px solid #CFD8DC;
+    }
+    td.done-cell  { background: #F1F8E9; }
+    td.next-cell  { background: #FFFDE7; }
+    td.later-cell { background: #ECEFF1; }
+
+    /* ── Cards inside cells ── */
+    .card {
+      border-radius: 4px;
+      padding: 4px 7px;
+      margin-bottom: 4px;
+      line-height: 1.45;
+      font-size: 10.5px;
+    }
+    .done-card {
+      background: #C8E6C9;
+      border-left: 3px solid #43A047;
+      color: #1B5E20;
+    }
+    .next-card {
+      background: #FFF9C4;
+      border-left: 3px solid #FFB300;
+      color: #6D4C00;
+    }
+    .later-card {
+      background: #E0E0E0;
+      border-left: 3px solid #9E9E9E;
+      color: #424242;
+    }
+  </style>
+</head>
+<body>
+
+<div class="title">Bereza Messenger — Карта пользовательских сценариев</div>
+
+<table>
+  <colgroup>
+    <col style="width:28px">
+    <col style="width:13%">
+    <col style="width:11%">
+    <col style="width:13%">
+    <col style="width:13%">
+    <col style="width:14%">
+    <col style="width:14%">
+    <col style="width:14%">
+  </colgroup>
+  <thead>
+    <tr>
+      <th class="row-label-header"></th>
+      <th>Регистрация / Вход</th>
+      <th>Профиль</th>
+      <th>Отель / Каталог</th>
+      <th>Бронирование</th>
+      <th>Чаты и группы</th>
+      <th>Общение</th>
+      <th>Уведомления</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- ═══════════════ СДЕЛАНО ═══════════════ -->
+    <tr>
+      <td class="row-label done-label">Сделано</td>
+
+      <td class="cell done-cell">
+        <div class="card done-card">Регистрация (4 роли)</div>
+        <div class="card done-card">Вход / Выход</div>
+        <div class="card done-card">JWT-авторизация</div>
+      </td>
+
+      <td class="cell done-cell">
+        <div class="card done-card">Просмотр профиля</div>
+        <div class="card done-card">Редактирование данных</div>
+        <div class="card done-card">Роли: TOURIST · GUIDE · HOTEL · ADMIN</div>
+      </td>
+
+      <td class="cell done-cell">
+        <div class="card done-card">Список отелей</div>
+        <div class="card done-card">Карточка отеля (фото, описание)</div>
+        <div class="card done-card">Создать / редактировать отель (HOTEL)</div>
+        <div class="card done-card">Поиск по городу и цене</div>
+      </td>
+
+      <td class="cell done-cell">
+        <div class="card done-card">Забронировать (даты, кол-во гостей)</div>
+        <div class="card done-card">«Мои бронирования» + отмена</div>
+        <div class="card done-card">Подтвердить / отклонить (HOTEL)</div>
+        <div class="card done-card">Статусы: PENDING → CONFIRMED / CANCELLED / COMPLETED</div>
+        <div class="card done-card">Авто-чат турист ↔ отель при бронировании</div>
+      </td>
+
+      <td class="cell done-cell">
+        <div class="card done-card">Список чатов с пагинацией</div>
+        <div class="card done-card">Личный чат (авто-создание)</div>
+        <div class="card done-card">Групповой чат (только GUIDE)</div>
+        <div class="card done-card">Счётчик непрочитанных</div>
+        <div class="card done-card">Добавить / удалить участника</div>
+        <div class="card done-card">Выйти из группы</div>
+        <div class="card done-card">Роли в чате: OWNER · ADMIN · MEMBER</div>
+      </td>
+
+      <td class="cell done-cell">
+        <div class="card done-card">Отправка / получение сообщений</div>
+        <div class="card done-card">WebSocket реал-тайм</div>
+        <div class="card done-card">Отметка прочитанного</div>
+        <div class="card done-card">Удаление сообщений</div>
+        <div class="card done-card">Вложения (фото, PDF, ваучер)</div>
+        <div class="card done-card">Геоточка в сообщении</div>
+        <div class="card done-card">Карта точек в чате (OSM)</div>
+      </td>
+
+      <td class="cell done-cell">
+        <div class="card done-card">WebSocket-уведомления в реал-тайм</div>
+        <div class="card done-card">Список уведомлений</div>
+        <div class="card done-card">Уведомление о смене статуса брони</div>
+      </td>
+    </tr>
+
+    <!-- ═══════════════ ХОРОШО БЫ СДЕЛАТЬ ═══════════════ -->
+    <tr>
+      <td class="row-label next-label">Хорошо бы сделать</td>
+
+      <td class="cell next-cell">
+        <div class="card next-card">Вход через VK / Яндекс</div>
+        <div class="card next-card">Восстановление пароля (OTP)</div>
+      </td>
+
+      <td class="cell next-cell">
+        <div class="card next-card">Загрузка аватара</div>
+        <div class="card next-card">Настройки уведомлений</div>
+        <div class="card next-card">Верификация гида (документы)</div>
+      </td>
+
+      <td class="cell next-cell">
+        <div class="card next-card">Фильтры по удобствам (мультиселект)</div>
+        <div class="card next-card">Карта отелей (Leaflet)</div>
+        <div class="card next-card">Избранное</div>
+        <div class="card next-card">Рейтинг и отзывы</div>
+      </td>
+
+      <td class="cell next-cell">
+        <div class="card next-card">Онлайн-оплата (ЮKassa / СБП)</div>
+        <div class="card next-card">Календарь занятости отеля</div>
+        <div class="card next-card">Канбан-доска броней (HOTEL)</div>
+      </td>
+
+      <td class="cell next-cell">
+        <div class="card next-card">Поиск / фильтрация чатов</div>
+        <div class="card next-card">Смена названия и описания группы (UI)</div>
+        <div class="card next-card">Назначение администратора</div>
+        <div class="card next-card">Уведомление при добавлении в группу</div>
+      </td>
+
+      <td class="cell next-cell">
+        <div class="card next-card">Реакции 👍 ❤ на сообщения</div>
+        <div class="card next-card">Ответ на сообщение (reply)</div>
+        <div class="card next-card">Редактирование сообщений</div>
+        <div class="card next-card">Индикатор «печатает»</div>
+        <div class="card next-card">Пересылка сообщений</div>
+      </td>
+
+      <td class="cell next-cell">
+        <div class="card next-card">Push-уведомления (FCM / APNs)</div>
+        <div class="card next-card">Звуковой сигнал о новом сообщении</div>
+        <div class="card next-card">«Отметить всё прочитанным»</div>
+      </td>
+    </tr>
+
+    <!-- ═══════════════ МОЖНО БУДЕТ СДЕЛАТЬ ═══════════════ -->
+    <tr>
+      <td class="row-label later-label">Можно будет сделать</td>
+
+      <td class="cell later-cell">
+        <div class="card later-card">Двухфакторная аутентификация</div>
+        <div class="card later-card">Биометрический вход</div>
+      </td>
+
+      <td class="cell later-cell">
+        <div class="card later-card">Программа лояльности (баллы)</div>
+        <div class="card later-card">История активности</div>
+      </td>
+
+      <td class="cell later-cell">
+        <div class="card later-card">Импорт из Booking / Avito</div>
+        <div class="card later-card">Шаблоны туров с расписанием</div>
+        <div class="card later-card">Динамические цены</div>
+      </td>
+
+      <td class="cell later-cell">
+        <div class="card later-card">Возврат средств при отмене</div>
+        <div class="card later-card">Бронирование тура с гидом</div>
+        <div class="card later-card">Отчёт по выручке (CSV)</div>
+      </td>
+
+      <td class="cell later-cell">
+        <div class="card later-card">Каналы / широковещание</div>
+        <div class="card later-card">Закреплённые чаты</div>
+        <div class="card later-card">Статистика активности группы</div>
+        <div class="card later-card">Опросы / голосования</div>
+      </td>
+
+      <td class="cell later-cell">
+        <div class="card later-card">Голосовые сообщения</div>
+        <div class="card later-card">Лайв-трекинг участников на карте</div>
+        <div class="card later-card">Маршрут-нитка GPX</div>
+        <div class="card later-card">Авто-ответы FAQ (шаблоны)</div>
+      </td>
+
+      <td class="cell later-cell">
+        <div class="card later-card">Дайджест за день / неделю</div>
+        <div class="card later-card">Мобильное приложение (React Native)</div>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "#1A237E",
+    "primaryTextColor": "#FFFFFF",
+    "primaryBorderColor": "#283593",
+    "lineColor": "#546E7A",
+    "secondaryColor": "#E8F5E9",
+    "tertiaryColor": "#FFF8E1",
+    "background": "#FAFAFA",
+    "mainBkg": "#FAFAFA",
+    "clusterBkg": "#F5F5F5",
+    "clusterBorder": "#90A4AE",
+    "titleColor": "#1A237E",
+    "fontFamily": "Inter, Helvetica Neue, Arial, sans-serif",
+    "fontSize": "13px",
+    "edgeLabelBackground": "#FFFFFF"
+  }
+}}%%
+flowchart TB
+
+  classDef backbone fill:#1A237E,stroke:#283593,color:#FFFFFF,font-weight:bold,rx:6,ry:6
+  classDef mvp     fill:#E8F5E9,stroke:#43A047,color:#1B5E20,rx:6,ry:6
+  classDef next    fill:#FFF8E1,stroke:#FFB300,color:#E65100,rx:6,ry:6
+  classDef later   fill:#ECEFF1,stroke:#90A4AE,color:#546E7A,rx:6,ry:6
+  classDef roleT   fill:#E3F2FD,stroke:#1976D2,color:#0D47A1,font-weight:bold,rx:4,ry:4
+  classDef roleG   fill:#FFF3E0,stroke:#E65100,color:#BF360C,font-weight:bold,rx:4,ry:4
+  classDef roleH   fill:#F3E5F5,stroke:#7B1FA2,color:#4A148C,font-weight:bold,rx:4,ry:4
+
+  %% ──────────── BACKBONE ────────────────────────────────────────────────
+  subgraph BACKBONE["🛣  Магистраль — путь пользователя"]
+    direction LR
+    B1["1️⃣  Завести аккаунт"]:::backbone
+    B2["2️⃣  Найти двор / Собрать дружину"]:::backbone
+    B3["3️⃣  Заключить уговор"]:::backbone
+    B4["4️⃣  Держать связь"]:::backbone
+    B5["5️⃣  Завершить путь"]:::backbone
+    B1 --> B2 --> B3 --> B4 --> B5
+  end
+
+  %% ──────────── MVP ─────────────────────────────────────────────────────
+  subgraph MVP["✅  MVP — выпущено"]
+    direction LR
+
+    subgraph M1["Аккаунт"]
+      M1a["👤 Регистрация\n(4 роли)"]:::mvp
+      M1b["👤 Логин / выход"]:::mvp
+      M1c["👤 Редактировать профиль"]:::mvp
+    end
+
+    subgraph M2["Каталог / Команда"]
+      M2a["👤 Поиск дворов\n(город, цена, звёзды)"]:::mvp
+      M2b["👤 Карточка двора\nс фото и удобствами"]:::mvp
+      M2c["🧭 Создать групповой чат\n(только GUIDE)"]:::mvp
+      M2d["🏨 Создать / редактировать отель"]:::mvp
+    end
+
+    subgraph M3["Уговор / Бронирование"]
+      M3a["👤 Забронировать\n(даты, кол-во гостей)"]:::mvp
+      M3b["👤 Мои бронирования\n+ отмена"]:::mvp
+      M3c["🏨 Входящие брони\nПодтвердить / отклонить"]:::mvp
+      M3d["🔗 Авто-чат турист ↔ отель\nпри бронировании"]:::mvp
+    end
+
+    subgraph M4["Связь"]
+      M4a["👤 Реал-тайм чат\n(личный и групповой)"]:::mvp
+      M4b["👤 Прикрепить файл\n(фото, PDF, ваучер)"]:::mvp
+      M4c["🧭🏨 Геометка на карте\n(OSM, тип точки)"]:::mvp
+      M4d["👤 Индикатор «печатает»\nи прочтения"]:::mvp
+    end
+
+    subgraph M5["Завершение"]
+      M5a["👤 Статус CANCELLED\n/ CONFIRMED / COMPLETED"]:::mvp
+      M5b["👤 Push-уведомления WS\nо смене статуса"]:::mvp
+      M5c["🏨 Статус COMPLETED\n→ уведомление гостю"]:::mvp
+    end
+  end
+
+  %% ──────────── NEXT ────────────────────────────────────────────────────
+  subgraph NEXT["🔜  Следующий релиз"]
+    direction LR
+
+    subgraph N1["Аккаунт"]
+      N1a["Логин через VK / Яндекс"]:::next
+      N1b["Восстановление пароля\n(OTP / email)"]:::next
+    end
+
+    subgraph N2["Каталог"]
+      N2a["Фильтры по удобствам\n(чипы, мультиселект)"]:::next
+      N2b["Карта дворов\n(Leaflet + OSM)"]:::next
+      N2c["Избранное"]:::next
+    end
+
+    subgraph N3["Бронирование"]
+      N3a["Онлайн-оплата\n(ЮKassa / СБП)"]:::next
+      N3b["Канбан-доска броней\nдля отеля"]:::next
+      N3c["Календарь занятости\nотеля"]:::next
+    end
+
+    subgraph N4["Связь"]
+      N4a["Реакции 👍❤ и reply"]:::next
+      N4b["Редактирование сообщений"]:::next
+    end
+
+    subgraph N5["Завершение"]
+      N5a["Отзыв на отель\n(рейтинг 1–5)"]:::next
+      N5b["Отзыв на путевождя"]:::next
+    end
+  end
+
+  %% ──────────── LATER ───────────────────────────────────────────────────
+  subgraph LATER["🌱  Долгий бэклог"]
+    direction LR
+
+    subgraph L1["Аккаунт"]
+      L1a["Верификация гида\n(документы)"]:::later
+      L1b["Программа лояльности\n(баллы)"]:::later
+    end
+
+    subgraph L2["Каталог"]
+      L2a["Шаблоны туров\n(расписание)"]:::later
+      L2b["Импорт из Booking / Avito"]:::later
+    end
+
+    subgraph L3["Бронирование"]
+      L3a["Динамические цены"]:::later
+      L3b["Отмена с возвратом"]:::later
+    end
+
+    subgraph L4["Связь"]
+      L4a["Маршрут-нитка GPX\nмежду метками"]:::later
+      L4b["Лайв-трекинг путников"]:::later
+      L4c["Авто-ответы FAQ\nшаблоны"]:::later
+    end
+
+    subgraph L5["Завершение"]
+      L5a["Отчёт по выручке\n(CSV, за период)"]:::later
+      L5b["Мобильное приложение"]:::later
+    end
+  end
+
+  %% ──────────── Вертикальные связи ──────────────────────────────────────
+  B1 -.-> M1
+  B2 -.-> M2
+  B3 -.-> M3
+  B4 -.-> M4
+  B5 -.-> M5
+
+  M1 --> N1 --> L1
+  M2 --> N2 --> L2
+  M3 --> N3 --> L3
+  M4 --> N4 --> L4
+  M5 --> N5 --> L5

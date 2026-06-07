@@ -14,7 +14,7 @@ public interface ChatMemberRepository extends JpaRepository<ChatMember, ChatMemb
     @Query("SELECT m FROM ChatMember m JOIN FETCH m.user WHERE m.chat.id = :chatId")
     List<ChatMember> findAllByChatId(@Param("chatId") Long chatId);
 
-    @Query("SELECT m FROM ChatMember m WHERE m.chat.id = :chatId AND m.user.id = :userId")
+    @Query("SELECT m FROM ChatMember m JOIN FETCH m.user WHERE m.chat.id = :chatId AND m.user.id = :userId")
     Optional<ChatMember> find(@Param("chatId") Long chatId, @Param("userId") Long userId);
 
     @Query("SELECT count(m) FROM ChatMember m WHERE m.chat.id = :chatId")

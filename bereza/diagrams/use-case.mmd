@@ -1,0 +1,102 @@
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "#E8EAF6",
+    "primaryTextColor": "#1A237E",
+    "primaryBorderColor": "#3949AB",
+    "lineColor": "#546E7A",
+    "background": "#FFFFFF",
+    "mainBkg": "#FFFFFF",
+    "clusterBkg": "#F8F9FA",
+    "clusterBorder": "#90A4AE",
+    "titleColor": "#1A237E",
+    "edgeLabelBackground": "#FFFFFF",
+    "fontFamily": "Inter, Helvetica Neue, Arial, sans-serif",
+    "fontSize": "13px"
+  }
+}}%%
+flowchart LR
+
+  %% ─── Акторы (левая сторона) ──────────────────────────────────────────
+  T(["Путник"])
+  G(["Путевождь"])
+
+  %% ─── Акторы (правая сторона) ─────────────────────────────────────────
+  H(["Гостинный двор"])
+  A(["Воевода"])
+
+  %% ─── Домен 1: Аутентификация ──────────────────────────────────────────
+  subgraph AUTH["Аутентификация"]
+    UC_REG(["Зарегистрироваться"])
+    UC_LOG(["Войти в систему"])
+    UC_PROF(["Редактировать профиль"])
+  end
+
+  %% ─── Домен 2: Каталог отелей ──────────────────────────────────────────
+  subgraph CATALOG["Каталог дворов"]
+    UC_BROWSE(["Искать дворы"])
+    UC_VIEW(["Смотреть карточку"])
+    UC_CREATE_HOTEL(["Создать отель"])
+    UC_EDIT_HOTEL(["Редактировать отель"])
+  end
+
+  %% ─── Домен 3: Бронирование ────────────────────────────────────────────
+  subgraph BOOKING["Бронирование"]
+    UC_BOOK(["Забронировать"])
+    UC_MYBK(["Мои бронирования"])
+    UC_CANCEL(["Отменить бронь"])
+    UC_INCOMING(["Входящие брони"])
+    UC_APPROVE(["Подтвердить / отклонить"])
+  end
+
+  %% ─── Домен 4: Беседы и файлы ──────────────────────────────────────────
+  subgraph CHAT["Беседы"]
+    UC_CHAT_LIST(["Список бесед"])
+    UC_CHAT_PERS(["Личная беседа"])
+    UC_CHAT_GROUP(["Групповой чат"])
+    UC_SEND_MSG(["Отправить сообщение"])
+    UC_SEND_FILE(["Прикрепить файл"])
+    UC_READ(["Прочитать сообщение"])
+  end
+
+  %% ─── Домен 5: Гео и уведомления ──────────────────────────────────────
+  subgraph GEO_NOTIF["Гео / Уведомления"]
+    UC_GEO(["Геометка на карте"])
+    UC_NOTIF(["Уведомления"])
+    UC_ADMIN(["Управление пользователями"])
+  end
+
+  %% ─── Горизонтальная цепочка доменов ──────────────────────────────────
+  AUTH --> CATALOG --> BOOKING --> CHAT --> GEO_NOTIF
+
+  %% ─── Левые акторы → домены ───────────────────────────────────────────
+  T --- AUTH
+  T --- CATALOG
+  T --- BOOKING
+  T --- CHAT
+
+  G --- AUTH
+  G --- CATALOG
+  G --- BOOKING
+  G --- CHAT
+  G --- GEO_NOTIF
+
+  %% ─── Правые акторы → домены ──────────────────────────────────────────
+  H --- AUTH
+  H --- CATALOG
+  H --- BOOKING
+  H --- CHAT
+  H --- GEO_NOTIF
+
+  A --- AUTH
+  A --- BOOKING
+  A --- CHAT
+  A --- GEO_NOTIF
+
+  %% ─── include / extend ────────────────────────────────────────────────
+  UC_BOOK -. "«include» авто-чат" .-> UC_CHAT_PERS
+  UC_BOOK -. "«include» уведомление" .-> UC_NOTIF
+  UC_APPROVE -. "«include» сообщение" .-> UC_SEND_MSG
+  UC_SEND_MSG -. "«extend» FILE" .-> UC_SEND_FILE
+  UC_SEND_MSG -. "«extend» GEO" .-> UC_GEO
+  UC_CREATE_HOTEL -. "«include» фото" .-> UC_SEND_FILE
