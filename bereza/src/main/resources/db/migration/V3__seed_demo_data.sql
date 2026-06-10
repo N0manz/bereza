@@ -19,12 +19,3 @@ SELECT u.id,
        ARRAY['WiFi', 'Завтрак', 'Парковка', 'Баня']
 FROM users u WHERE u.username = 'hotel';
 
-INSERT INTO hotels (name, description, city, address, latitude, longitude, stars, price_per_night, rooms_available, photos, amenities) VALUES
-  ('Гостиница «Кремлёвская»', 'Историческое здание в самом сердце Казани.',
-   'Казань', 'ул. Кремлёвская, 17', 55.7989, 49.1064, 5, 9800.00, 5,
-   ARRAY['/uploads/hotels/2/1.jpg']::TEXT[],
-   ARRAY['WiFi', 'Завтрак', 'Спа', 'Парковка']),
-  ('Эко-отель «Алтайские зори»', 'Деревянные коттеджи в горах Алтая.',
-   'Горно-Алтайск', 'пос. Манжерок, 1', 51.7913, 85.7741, 4, 7400.00, 8,
-   ARRAY['/uploads/hotels/3/1.jpg']::TEXT[],
-   ARRAY['WiFi', 'Баня', 'Конные прогулки', 'Рыбалка']);

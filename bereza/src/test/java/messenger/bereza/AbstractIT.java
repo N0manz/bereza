@@ -10,8 +10,6 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -20,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@Testcontainers
 public abstract class AbstractIT {
 
     @Autowired
@@ -29,8 +26,14 @@ public abstract class AbstractIT {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    @Container
+    // Singleton — один контейнер на весь прогон тестов.
+    // @Testcontainers + static @Container останавливает контейнер после каждого тест-класса,
+    // тогда как Spring Boot кэширует контекст и продолжает использовать старый пул соединений.
     static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine");
+
+    static {
+        POSTGRES.start();
+    }
 
     @DynamicPropertySource
     static void datasource(DynamicPropertyRegistry r) {

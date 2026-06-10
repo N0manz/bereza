@@ -12,7 +12,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-classHotelApiIT extends AbstractIT {
+class HotelApiIT extends AbstractIT {
 
     @Test
     void listHotels_isPublic_withoutAuth() throws Exception {

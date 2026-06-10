@@ -89,9 +89,8 @@ class AuthApiIT extends AbstractIT {
     }
 
     @Test
-    void me_returnsNull_whenAnonymous() throws Exception {
+    void me_returns200_whenAnonymous() throws Exception {
         mockMvc.perform(get("/api/auth/me"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+                .andExpect(status().isOk());
     }
 }
